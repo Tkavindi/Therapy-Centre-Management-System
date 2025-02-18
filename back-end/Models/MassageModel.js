@@ -7,6 +7,4 @@ const massageSchema = new mongoose.Schema({
 })
 
 
-module.exports = {
-    Massage: mongoose.model('Massage', massageSchema)
-}
+module.exports = mongoose.model('Massage', massageSchema)

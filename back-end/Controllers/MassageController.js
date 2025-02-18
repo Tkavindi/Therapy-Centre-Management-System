@@ -1,4 +1,4 @@
-const {Massage} = require('../Models/MassageModel')
+const Massage = require('../Models/MassageModel')
 
 const addMassage = async (req,res) =>{
     try{
@@ -20,5 +20,37 @@ const addMassage = async (req,res) =>{
 
 }
 
+const updateMassage = async (req,res) =>{
+    try{
+        const massage_id = req.params.massageId
+        const updatedData = req.body 
 
-module.exports = {addMassage}
+        const updatedMassage = await Massage.findByIdAndUpdate(
+            massage_id,
+            updatedData,
+            { new: true, runValidators: true}
+        )
+        if(!updatedMassage){
+            res.status(404).send("Massage Type Not Found.")
+        }
+        res.status(200).json({ message: 'Succesfull Updated ', updatedMassage})
+
+    }catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
+}
+const deleteMassage = async (req, res) =>{
+    try{
+        const massage_id = req.params.massageId
+        await Massage.deleteOne({_id: massage_id})
+        res.status(200).send("Succesfully Deleted")
+        
+    }catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
+}
+
+
+module.exports = {addMassage, updateMassage, deleteMassage}
