@@ -19,5 +19,18 @@ const addExpenses = async (req,res) =>{
 
 }
 
+const viewExpenses = async (req, res) =>{
+    try{
+        const expenses = await Expenses.find()
+        res.status(200).send(expenses)
 
-module.exports = {addExpenses}
+    }catch(error){
+        console.log(error)
+        res.status(500).send('Expenses is Not Found')
+    }
+}
+
+
+
+
+module.exports = {addExpenses, viewExpenses}

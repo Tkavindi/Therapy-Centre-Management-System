@@ -7,7 +7,8 @@ const addMassage = async (req,res) =>{
         {
             massage_type: data.massage_type,
             duration: data.duration,
-            price: data.price
+            price: data.price,
+            therapist_pay: data.therapist_pay
         }
      )
      await newmassage.save()
@@ -52,5 +53,16 @@ const deleteMassage = async (req, res) =>{
     }
 }
 
+const viewMassage = async (req, res) =>{
+    try{
+        const massage = await Massage.find()
+        res.status(200).send(massage)
 
-module.exports = {addMassage, updateMassage, deleteMassage}
+    }catch(error){
+        console.log(error)
+        res.status(500).send('Massage Type is Not Found')
+    }
+}
+
+
+module.exports = {addMassage, updateMassage, deleteMassage, viewMassage}

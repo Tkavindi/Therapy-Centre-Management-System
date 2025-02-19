@@ -8,7 +8,10 @@ const bookingSchema = new mongoose.Schema({
     date: {type: Date, required: true},
     time: {type: String, required: true},
     therapist_name: {type: String, required: false},
-    price: {type: Number, required: true }
+    therapist_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Employee', required: true},
+    price: {type: Number, required: true },
+    status: {type: String, default: "Pending"}
+
     
 })
 

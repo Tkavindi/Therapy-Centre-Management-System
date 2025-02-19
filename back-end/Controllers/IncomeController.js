@@ -1,25 +1,39 @@
 const Income = require('../Models/IncomeModel')
 
-const addIncome = async (req,res) =>{
+const addIncome = async (booking) =>{
     try{
-     const data = req.body
+   
      const newincome = new Income(
         {   
-            booking_id: data.booking_id,
-            date: data.date,
-            massage_type: data.massage_type,
-            price: data.price
+            booking_id: booking._id,
+            date: booking.date,
+            massage_type: booking.massage_type,
+            price: booking.price
         }
      )
      await newincome.save()
-     res.status(201).send("Succesfully Added")
+     console.log("Income successfully added")
     }
     catch(error){
         console.log(error)
-        res.status(500).send(error)
+        console.error("Error adding income:", error)
     }
 
 }
 
+const viewIncome = async (req, res) =>{
+    try{
+        const income = await Income.find()
+        res.status(200).send(income)
 
-module.exports = {addIncome}
+    }catch(error){
+        console.log(error)
+        res.status(500).send('Income is Not Found')
+    }
+}
+
+
+
+
+
+module.exports = {addIncome, viewIncome}

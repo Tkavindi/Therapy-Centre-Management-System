@@ -88,5 +88,17 @@ const loginEmployee = async (req, res) =>{
     }
 }
 
+const viewEmployee = async (req, res) =>{
+    try{
+        const employee = await Employee.find()
+        res.status(200).send(employee)
 
-module.exports = {addEmployee, deleteEmployee, updateEmployee, loginEmployee}
+    }catch(error){
+        console.log(error)
+        res.status(500).send('Employee is Not Found')
+    }
+}
+
+
+
+module.exports = {addEmployee, deleteEmployee, updateEmployee, loginEmployee, viewEmployee}

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {addEmployee, deleteEmployee, updateEmployee, loginEmployee} = require('../Controllers/EmployeeController')
+const {addEmployee, deleteEmployee, updateEmployee, loginEmployee, viewEmployee} = require('../Controllers/EmployeeController')
 
 router.post('/add', (req,res) =>{
     addEmployee(req, res)
@@ -16,6 +16,11 @@ router.put('/:employeeId', (req, res) =>{
 router.post('/login', (req, res) =>{
     loginEmployee(req, res)
 })
+
+router.get('/view', (req, res) =>{
+    viewEmployee(req, res)
+})
+
 
 
 module.exports = router
