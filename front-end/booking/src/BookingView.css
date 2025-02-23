@@ -1,0 +1,45 @@
+.booking-view-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.booking-table th,
+.booking-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.booking-table th {
+    background-color: #f2f2f2;
+}
+
+.booking-table td select {
+    width: 120px;
+    padding: 5px;
+}
+
+.booking-table button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.booking-table button:hover {
+    background-color: #45a049;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
