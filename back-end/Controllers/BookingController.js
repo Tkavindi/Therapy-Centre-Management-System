@@ -28,39 +28,64 @@ const addBooking = async (req, res) =>{
     }
 }
 
-const completeBooking = async (req, res) =>{
-    try{
-        const booking_id = req.params.bookingId
+const completeBooking = async (req, res) => {
+    try {
+        const booking_id = req.params.bookingId;
 
-        const booking = await Booking.findById(booking_id)
-        if(booking.status == "Pending"){
-        await Booking.findByIdAndUpdate(booking_id,{status: "Completed"})
-        
+        // Check if booking exists first
+        const booking = await Booking.findById(booking_id);
         if (!booking) {
             return res.status(404).send("Booking not found");
         }
+
+        // Check if booking is already completed
+        if (booking.status === "Completed") {
+            return res.status(400).send("Booking is already Completed");
+        }
+
+        // Mark booking as completed
+        await Booking.findByIdAndUpdate(booking_id, { status: "Completed" });
+
+        // Add salary and income after booking completion
         await addIncome(booking);
         await addSalary(booking);
 
-        res.status(200).send("Booking marked as completed,  income and salary recorded");
-    }else{
-        res.status(500).send("Booking is already Completed");
-    }
-    }catch(error){
-        console.log(error)
-        res.status(500).send(error)
-    }
-}
+        console.log("Booking marked as completed, income and salary recorded");
+        res.status(200).send("Booking marked as completed, income and salary recorded");
 
-const viewBooking = async (req, res) =>{
-    try{
-        const booking = await Booking.find()
-        res.status(200).send(booking)
-
-    }catch(error){
-        console.log(error)
-        res.status(500).send('Booking is Not Found')
+    } catch (error) {
+        console.error("Error completing booking:", error);
+        res.status(500).send(error);
     }
-}
+};
+
+
+const viewBooking = async (req, res) => {
+    try {
+        const { startDate, endDate, startTime, endTime } = req.query;
+
+        // Build the query object to filter bookings
+        const query = {};
+
+        if (startDate && endDate) {
+            query.date = { $gte: new Date(startDate), $lte: new Date(endDate) }; // Date range filter
+        }
+
+        if (startTime && endTime) {
+            query.time = { $gte: startTime, $lte: endTime }; // Time range filter
+        }
+
+        const bookings = await Booking.find(query);
+
+        if (bookings.length === 0) {
+            return res.status(404).send("No bookings found for the specified time period");
+        }
+
+        res.status(200).send(bookings);
+    } catch (error) {
+        console.error("Error fetching bookings:", error);
+        res.status(500).send('Error fetching bookings');
+    }
+};
 
 module.exports = {addBooking, completeBooking, viewBooking}

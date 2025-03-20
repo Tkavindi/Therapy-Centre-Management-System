@@ -1,9 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const {viewSalary} = require('../Controllers/SalaryController')
+const {viewSalaryByPeriod, addSalary} = require('../Controllers/SalaryController')
 
-router.get('/view', (req,res) =>{
-    viewSalary(req, res)
+router.get('/view-by-period', (req,res) =>{
+    viewSalaryByPeriod(req, res)
+})
+
+router.post('/add', (req,res) =>{
+    addSalary(req, res)
 })
 
 

@@ -102,3 +102,4 @@ const viewEmployee = async (req, res) =>{
 
 
 module.exports = {addEmployee, deleteEmployee, updateEmployee, loginEmployee, viewEmployee}
+
