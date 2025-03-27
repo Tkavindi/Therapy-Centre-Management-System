@@ -29,7 +29,7 @@ function Login() {
     console.log(data);
 
     try {
-      const response = await axios.post("http://localhost:3000/employee/login", data);
+      const response = await axios.post("https://back-end-ruvee-nature-therapy.fly.dev/employee/login", data);
       console.log(response.data);
 
       if (response.data && response.data._id) {

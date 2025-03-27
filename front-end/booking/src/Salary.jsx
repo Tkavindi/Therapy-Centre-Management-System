@@ -14,7 +14,7 @@ const Salary = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/employee/view");
+        const response = await axios.get("https://back-end-ruvee-nature-therapy.fly.dev/employee/view");
         setEmployees(response.data);
       } catch (err) {
         console.error("Error fetching employees:", err);
@@ -37,7 +37,7 @@ const Salary = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:3000/salary/view-by-period",
+        "https://back-end-ruvee-nature-therapy.fly.dev/salary/view-by-period",
         {
           params: { startDate, endDate, employeeName: selectedEmployee },
         }

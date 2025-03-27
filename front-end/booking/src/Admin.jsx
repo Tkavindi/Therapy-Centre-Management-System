@@ -37,7 +37,7 @@ const Admin = () => {
 
   const fetchMassages = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/massage/view');
+      const response = await axios.get('https://back-end-ruvee-nature-therapy.fly.dev/massage/view');
       setMassages(response.data);
     } catch (error) {
       console.error('Error fetching massages', error);
@@ -46,7 +46,7 @@ const Admin = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/employee/view');
+      const response = await axios.get('https://back-end-ruvee-nature-therapy.fly.dev/employee/view');
       setEmployees(response.data);
     } catch (error) {
       console.error('Error fetching employees', error);
@@ -59,10 +59,10 @@ const Admin = () => {
 
     try {
       if (isEditingMassage) {
-        await axios.put(`http://localhost:3000/massage/${selectedMassageId}`, massageDetails);
+        await axios.put(`https://back-end-ruvee-nature-therapy.fly.dev/massage/${selectedMassageId}`, massageDetails);
         alert('Massage updated successfully!');
       } else {
-        await axios.post('http://localhost:3000/massage/add', massageDetails);
+        await axios.post('https://back-end-ruvee-nature-therapy.fly.dev/massage/add', massageDetails);
         alert('Massage added successfully!');
       }
       fetchMassages();
@@ -75,7 +75,7 @@ const Admin = () => {
 
   const handleMassageDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/massage/${id}`);
+      await axios.delete(`https://back-end-ruvee-nature-therapy.fly.dev/massage/${id}`);
       alert('Massage deleted successfully!');
       fetchMassages();
     } catch (error) {
@@ -101,10 +101,10 @@ const Admin = () => {
 
     try {
       if (isEditingEmployee) {
-        await axios.put(`http://localhost:3000/employee/${selectedEmployeeId}`, employeeDetails);
+        await axios.put(`https://back-end-ruvee-nature-therapy.fly.dev/employee/${selectedEmployeeId}`, employeeDetails);
         alert('Employee updated successfully!');
       } else {
-        await axios.post('http://localhost:3000/employee/add', employeeDetails);
+        await axios.post('https://back-end-ruvee-nature-therapy.fly.dev/employee/add', employeeDetails);
         alert('Employee added successfully!');
       }
       fetchEmployees();
@@ -117,7 +117,7 @@ const Admin = () => {
 
   const handleEmployeeDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/employee/${id}`);
+      await axios.delete(`https://back-end-ruvee-nature-therapy.fly.dev/employee/${id}`);
       alert('Employee deleted successfully!');
       fetchEmployees();
     } catch (error) {

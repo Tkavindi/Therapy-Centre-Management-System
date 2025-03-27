@@ -18,7 +18,7 @@ const Income = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:3000/income/view-by-period",
+        "https://back-end-ruvee-nature-therapy.fly.dev/income/view-by-period",
         {
           params: { startDate, endDate },
         }

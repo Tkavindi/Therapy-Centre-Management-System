@@ -22,7 +22,7 @@ const ManageMassage = () => {
 
   const fetchMassages = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/massage/view");
+      const response = await axios.get("https://back-end-ruvee-nature-therapy.fly.dev/massage/view");
       setMassages(response.data);
     } catch (error) {
       console.error("Error fetching massages", error);
@@ -35,12 +35,12 @@ const ManageMassage = () => {
     try {
       if (isEditingMassage) {
         await axios.put(
-          `http://localhost:3000/massage/${selectedMassageId}`,
+          `https://back-end-ruvee-nature-therapy.fly.dev/massage/${selectedMassageId}`,
           massageDetails
         );
         alert("Massage updated successfully!");
       } else {
-        await axios.post("http://localhost:3000/massage/add", massageDetails);
+        await axios.post("https://back-end-ruvee-nature-therapy.fly.dev/massage/add", massageDetails);
         alert("Massage added successfully!");
       }
       fetchMassages();
@@ -55,7 +55,7 @@ const ManageMassage = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this employee?');
     if(confirmDelete ){
     try {
-      await axios.delete(`http://localhost:3000/massage/${id}`);
+      await axios.delete(`https://back-end-ruvee-nature-therapy.fly.dev/massage/${id}`);
       alert("Massage deleted successfully!");
       fetchMassages();
     } catch (error) {

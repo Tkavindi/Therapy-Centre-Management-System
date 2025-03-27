@@ -7,8 +7,8 @@ const BookingView = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(""); // No default value
+  const [endDate, setEndDate] = useState(""); // No default value
   const [filteredBookings, setFilteredBookings] = useState([]);
 
   useEffect(() => {
@@ -16,8 +16,23 @@ const BookingView = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get("http://localhost:3000/booking/view");
+        const response = await axios.get("https://back-end-ruvee-nature-therapy.fly.dev/booking/view");
         setBookings(response.data);
+
+        // Get current month and year
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+
+        // Filter bookings for the current month
+        const currentMonthBookings = response.data.filter((booking) => {
+          const bookingDate = new Date(booking.date);
+          return (
+            bookingDate.getMonth() === currentMonth && bookingDate.getFullYear() === currentYear
+          );
+        });
+
+        setFilteredBookings(currentMonthBookings);
       } catch (err) {
         setError("Failed to load bookings");
         console.error(err);
@@ -45,12 +60,18 @@ const BookingView = () => {
 
   const handleStatusChange = async (bookingId, newStatus) => {
     try {
-      await axios.put(`http://localhost:3000/booking/complete/${bookingId}`, {
+      await axios.put(`https://back-end-ruvee-nature-therapy.fly.dev/booking/complete/${bookingId}`, {
         status: newStatus,
       });
 
       setBookings((prevBookings) =>
         prevBookings.map((booking) =>
+          booking._id === bookingId ? { ...booking, status: newStatus } : booking
+        )
+      );
+
+      setFilteredBookings((prevFiltered) =>
+        prevFiltered.map((booking) =>
           booking._id === bookingId ? { ...booking, status: newStatus } : booking
         )
       );
@@ -106,74 +127,65 @@ const BookingView = () => {
           <p className="text-center">Loading...</p>
         ) : (
           <>
-            {/* Display bookings only after a date filter is applied */}
-            {startDate && endDate ? (
-              <>
-                {filteredBookings.length === 0 ? (
-                  <p className="text-center text-muted mt-3">
-                    No bookings found for the selected time period.
-                  </p>
-                ) : (
-                  <div className="table-responsive">
-                    <table className="table table-bordered table-striped mt-4">
-                      <thead className="table-dark">
-                        <tr>
-                          <th>Details</th>
-                          <th>Date & Time</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {filteredBookings.map((booking) => (
-                          <tr key={booking._id}>
-                            <td>
-                              <b>Customer: </b>{booking.customer_name} <br />
-                              <b>Type: </b>{booking.massage_type} <br />
-                              <b>Therapist: </b>{booking.therapist_name} <br />
-                              <b>Status: </b>
-                              <span
-                                className={`badge ${
-                                  booking.status === "Pending"
-                                    ? "bg-warning text-dark"
-                                    : "bg-success"
-                                }`}
-                              >
-                                {booking.status}
-                              </span>
-                            </td>
-                            <td>
-                              {new Date(booking.date).toLocaleDateString()} <br /> {booking.time}
-                            </td>
-                            <td>
-                              <button
-                                className={`btn btn-sm ${
-                                  booking.status === "Pending"
-                                    ? "btn-success"
-                                    : "btn-warning"
-                                }`}
-                                onClick={() =>
-                                  handleStatusChange(
-                                    booking._id,
-                                    booking.status === "Pending" ? "Completed" : "Pending"
-                                  )
-                                }
-                              >
-                                {booking.status === "Pending"
-                                  ? "Mark as Completed"
-                                  : "Mark as Pending"}
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </>
-            ) : (
+            {filteredBookings.length === 0 ? (
               <p className="text-center text-muted mt-3">
-                Please select a time period to view the bookings.
+                No bookings found for the selected time period.
               </p>
+            ) : (
+              <div className="table-responsive">
+                <table className="table table-bordered table-striped mt-4">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>Details</th>
+                      <th>Date & Time</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredBookings.map((booking) => (
+                      <tr key={booking._id}>
+                        <td>
+                          <b>Customer: </b>{booking.customer_name} <br />
+                          <b>Type: </b>{booking.massage_type} <br />
+                          <b>Therapist: </b>{booking.therapist_name} <br />
+                          <b>Status: </b>
+                          <span
+                            className={`badge ${
+                              booking.status === "Pending"
+                                ? "bg-warning text-dark"
+                                : "bg-success"
+                            }`}
+                          >
+                            {booking.status}
+                          </span>
+                        </td>
+                        <td>
+                          {new Date(booking.date).toLocaleDateString()} <br /> {booking.time}
+                        </td>
+                        <td>
+                          <button
+                            className={`btn btn-sm ${
+                              booking.status === "Pending"
+                                ? "btn-success"
+                                : "btn-warning"
+                            }`}
+                            onClick={() =>
+                              handleStatusChange(
+                                booking._id,
+                                booking.status === "Pending" ? "Completed" : "Pending"
+                              )
+                            }
+                          >
+                            {booking.status === "Pending"
+                              ? "Mark as Completed"
+                              : "Mark as Pending"}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </>
         )}
