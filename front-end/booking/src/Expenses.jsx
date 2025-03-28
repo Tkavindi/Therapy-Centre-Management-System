@@ -3,54 +3,53 @@ import axios from "axios";
 import Navbar from "./NavBar";
 
 const Expenses = () => {
-  // State for adding an expense
   const [expense, setExpense] = useState({ expenditure: "", amount: "" });
-
-  // State for viewing expenses
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [expenses, setExpenses] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state to show loader during fetching
-  const [dataFetched, setDataFetched] = useState(false); // To track if the data was fetched after date selection
+  const [loading, setLoading] = useState(false);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0); // New state for total expense amount
 
-  // Handle input change for adding expense
   const handleChange = (e) => {
     setExpense({ ...expense, [e.target.name]: e.target.value });
   };
 
-  // Handle submitting a new expense
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("https://back-end-ruvee-nature-therapy.fly.dev/expenses/add", expense);
       alert("Expense added successfully!");
-      setExpense({ expenditure: "", amount: "" }); // Clear form
+      setExpense({ expenditure: "", amount: "" });
     } catch (error) {
       console.error("Error adding expense:", error);
       alert("Failed to add expense");
     }
   };
 
-  // Fetch expenses for a specific time period
   const fetchExpenses = async () => {
     if (!startDate || !endDate) {
       alert("Please select both start and end dates.");
       return;
     }
 
-    setLoading(true); // Start loading
-    setDataFetched(true); // Indicate that data was fetched after selection
+    setLoading(true);
+    setDataFetched(true);
 
     try {
       const response = await axios.get("https://back-end-ruvee-nature-therapy.fly.dev/expenses/view", {
-        params: { startDate, endDate }, // Passing startDate and endDate as query parameters
+        params: { startDate, endDate },
       });
       setExpenses(response.data);
+
+      // Calculate total amount
+      const total = response.data.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+      setTotalAmount(total);
     } catch (error) {
       console.error("Error fetching expenses:", error);
       alert("Failed to fetch expenses.");
     } finally {
-      setLoading(false); // Stop loading once fetch is complete
+      setLoading(false);
     }
   };
 
@@ -123,28 +122,31 @@ const Expenses = () => {
 
           {/* Expenses Table */}
           {loading ? (
-            <p>Loading...</p> // Show loading message when fetching
+            <p>Loading...</p>
           ) : dataFetched && expenses.length > 0 ? (
-            <table className="table table-bordered mt-3">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Expenditure</th>
-                  <th>Amount</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {expenses.map((exp, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{exp.expenditure}</td>
-                    <td>LKR{exp.amount}</td>
-                    <td>{new Date(exp.date).toLocaleDateString("en-CA")}</td>
+            <>
+              <table className="table table-bordered mt-3">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Expenditure</th>
+                    <th>Amount</th>
+                    <th>Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {expenses.map((exp, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{exp.expenditure}</td>
+                      <td>LKR {exp.amount}</td>
+                      <td>{new Date(exp.date).toLocaleDateString("en-CA")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <h5 className="mt-3">Total Expenses: LKR {totalAmount.toFixed(2)}</h5>
+            </>
           ) : dataFetched && expenses.length === 0 ? (
             <p className="mt-3 text-muted">No expenses found for the selected period.</p>
           ) : null}

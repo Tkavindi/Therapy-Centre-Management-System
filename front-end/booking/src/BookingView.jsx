@@ -7,9 +7,10 @@ const BookingView = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [startDate, setStartDate] = useState(""); // No default value
-  const [endDate, setEndDate] = useState(""); // No default value
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [filteredBookings, setFilteredBookings] = useState([]);
+  const [totalBookings, setTotalBookings] = useState(0); // New state for total bookings count
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -33,6 +34,7 @@ const BookingView = () => {
         });
 
         setFilteredBookings(currentMonthBookings);
+        setTotalBookings(currentMonthBookings.length); // Update total bookings count
       } catch (err) {
         setError("Failed to load bookings");
         console.error(err);
@@ -53,8 +55,10 @@ const BookingView = () => {
         return bookingDate >= start && bookingDate <= end;
       });
       setFilteredBookings(filtered);
+      setTotalBookings(filtered.length); // Update count based on filtered data
     } else {
-      setFilteredBookings(bookings); // If no dates are selected, show all bookings
+      setFilteredBookings(bookings);
+      setTotalBookings(bookings.length);
     }
   };
 
@@ -185,6 +189,11 @@ const BookingView = () => {
                     ))}
                   </tbody>
                 </table>
+
+                {/* Total Booking Count */}
+                <h5 className="mt-3 text-center">
+                  Total Bookings: <span className="fw-bold">{totalBookings}</span>
+                </h5>
               </div>
             )}
           </>
