@@ -9,7 +9,7 @@ const BookingForm = () => {
 
     const [formData, setFormData] = useState({
         customer_name: "",
-        customer_contact_no: "",
+        customer_country: "",
         massage_type: "",
         duration: "",
         date: "",
@@ -105,8 +105,8 @@ const BookingForm = () => {
                     />
                     <input
                         type="text"
-                        name="customer_contact_no"
-                        placeholder="Contact Number"
+                        name="customer_country"
+                        placeholder="Country"
                         onChange={handleChange}
                         required
                     />

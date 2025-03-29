@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const bookingSchema = new mongoose.Schema({
     customer_name: { type: String, required: true},
-    customer_contact_no: { type: String, required: true},
+    customer_country: { type: String, required: true},
     massage_type: { type: String, required: true},
     duration: { type: Number, required: true},
     date: {type: Date, required: true},

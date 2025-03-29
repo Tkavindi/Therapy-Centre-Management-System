@@ -8,7 +8,7 @@ const addBooking = async (req, res) =>{
         const newbooking = new Booking(
             {
                 customer_name: req.body.customer_name,
-                customer_contact_no: req.body.customer_contact_no,
+                customer_country: req.body.customer_country,
                 massage_type: req.body.massage_type,
                 duration: req.body.duration,
                 date: req.body.date,
