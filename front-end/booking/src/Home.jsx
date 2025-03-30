@@ -27,7 +27,7 @@ function Home() {
           WELCOME TO RUVEE NATURE SPA
         </h2>
         <p className="text-muted">
-          Come and relax at Ayurvedic Bliss Spa, where we offer treatments to help you feel calm and refreshed. Our spa,
+          Come and relax at Ayurvedic Spa, where we offer treatments to help you feel calm and refreshed. Our spa,
           surrounded by beautiful gardens, has been loved by many visitors for its peaceful atmosphere and skilled therapists.
           Whether you need a deep massage or a full-body treatment, we’re here to give you a relaxing experience. Enjoy
           quality oils, soothing ginger tea, and a welcoming environment. Book your visit today and experience the healing
