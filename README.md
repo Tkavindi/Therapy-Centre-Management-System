@@ -3,8 +3,6 @@
 ## Overview
 Therapy Centre Management System is a web application designed to manage therapy centre operations, including booking appointments, managing employees, tracking expenses and income, handling salaries, and maintaining massage service records. The system consists of a **back-end** (Node.js with Express) deployed on **Fly.io** and a **front-end** (React with Vite) deployed on **Vercel**.
 
-🔗 **Live Website:** [Therapy Centre Management System](http://therapy-centre-management-system.vercel.app)
-
 ## Features
 - **Booking Management**: Patients can book therapy sessions online.
 - **Employee Management**: Manage therapist and staff details.
