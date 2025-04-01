@@ -19,11 +19,10 @@ const BookingForm = () => {
     });
 
     const [therapists, setTherapists] = useState([]);
-    const [massageTypes, setMassageTypes] = useState([]); // For storing massages from database
+    const [massageTypes, setMassageTypes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Fetch therapists and massage types
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -52,7 +51,7 @@ const BookingForm = () => {
                 ...formData,
                 massage_type: selectedMassage.massage_type,
                 duration: selectedMassage.duration,
-                price: selectedMassage.price
+                price: selectedMassage.price // Price auto-fills but remains editable
             });
         } else {
             console.error("Massage type not found: ", e.target.value);
@@ -73,7 +72,6 @@ const BookingForm = () => {
         setLoading(true);
         setError(null);
 
-        // Check the form data before sending it
         console.log(formData);
 
         try {
@@ -143,8 +141,8 @@ const BookingForm = () => {
                         type="text"
                         name="price"
                         value={formData.price}
-                        placeholder="Price (auto-filled)"
-                        readOnly
+                        onChange={handleChange} // Now editable
+                        placeholder="Price (auto-filled but editable)"
                     />
 
                     <select name="therapist_id" onChange={handleTherapistChange} required>
@@ -166,4 +164,3 @@ const BookingForm = () => {
 };
 
 export default BookingForm;
-
